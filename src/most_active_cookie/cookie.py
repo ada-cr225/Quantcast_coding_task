@@ -2,12 +2,16 @@ from collections.abc import Iterable
 from dataclasses import dataclass
 from datetime import date, datetime, timezone
 
+
 @dataclass(frozen=True)
 class CookieRecord:
     cookie: str
     timestamp: datetime
 
-def count_cookies_on_day(records: Iterable[CookieRecord], target: date) -> dict[str, int]:
+
+def count_cookies_on_day(
+    records: Iterable[CookieRecord], target: date
+) -> dict[str, int]:
     """
     Count occurrences of each cookie on the given UTC day
 
@@ -18,14 +22,17 @@ def count_cookies_on_day(records: Iterable[CookieRecord], target: date) -> dict[
     counts: dict[str, int] = {}
 
     for record in records:
-        day = record.timestamp.astimezone(timezone.utc).date() # convert to UTC and extract the date
+        day = record.timestamp.astimezone(
+            timezone.utc
+        ).date()  # convert to UTC and extract the date
         if day > target:
-            continue # skip records newer than the target day
+            continue  # skip records newer than the target day
         if day < target:
-            break # stop scanning at the first record older than the target day
+            break  # stop scanning at the first record older than the target day
         counts[record.cookie] = counts.get(record.cookie, 0) + 1
 
     return counts
+
 
 def most_frequent(counts: dict[str, int]) -> list[str]:
     """
@@ -34,11 +41,11 @@ def most_frequent(counts: dict[str, int]) -> list[str]:
     """
     if not counts:
         return []
-    
-    highest_count = max(counts.values())
-    return [cookie for cookie, count in counts.items() if count == highest_count] 
 
-    
+    highest_count = max(counts.values())
+    return [cookie for cookie, count in counts.items() if count == highest_count]
+
+
 def most_active_cookies(records: Iterable[CookieRecord], target: date) -> list[str]:
     """Return the most active cookies on the given UTC day"""
     return most_frequent(count_cookies_on_day(records, target))

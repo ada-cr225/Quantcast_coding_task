@@ -4,8 +4,10 @@ from pathlib import Path
 
 from most_active_cookie.cookie import CookieRecord
 
+
 class LogFormatError(ValueError):
     pass
+
 
 def read_log(path: Path) -> list[CookieRecord]:
     """
@@ -20,7 +22,9 @@ def read_log(path: Path) -> list[CookieRecord]:
 
         for line_number, row in enumerate(reader, start=2):
             if len(row) != 2:
-                raise LogFormatError(f"line {line_number}: expected 'cookie,timestamp'") # needs to be exactly 2 columns
+                raise LogFormatError(
+                    f"line {line_number}: expected 'cookie,timestamp'"
+                )  # needs to be exactly 2 columns
             cookie, raw_timestamp = row
             # parse the timestamp, raising an error if it's invalid or has no UTC offset
             try:

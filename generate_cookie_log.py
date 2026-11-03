@@ -85,20 +85,38 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--lines", type=int, default=50_000)
     parser.add_argument("--cookies", type=int, default=2_000, help="distinct cookies")
     parser.add_argument("--days", type=int, default=30)
-    parser.add_argument("--start", type=date.fromisoformat, default=date(2018, 11, 10),
-                        help="first UTC day, YYYY-MM-DD")
+    parser.add_argument(
+        "--start",
+        type=date.fromisoformat,
+        default=date(2018, 11, 10),
+        help="first UTC day, YYYY-MM-DD",
+    )
     parser.add_argument("--seed", type=int, default=42)
-    parser.add_argument("--exponent", type=float, default=1.1,
-                        help="Zipf exponent; higher = more skewed activity")
-    parser.add_argument("--mixed-offsets", action="store_true",
-                        help="render ~20%% of timestamps in non-UTC offsets")
+    parser.add_argument(
+        "--exponent",
+        type=float,
+        default=1.1,
+        help="Zipf exponent; higher = more skewed activity",
+    )
+    parser.add_argument(
+        "--mixed-offsets",
+        action="store_true",
+        help="render ~20%% of timestamps in non-UTC offsets",
+    )
     return parser.parse_args()
 
 
 def main() -> None:
     args = parse_args()
-    rows = generate(args.lines, args.cookies, args.days, args.start,
-                    args.seed, args.exponent, args.mixed_offsets)
+    rows = generate(
+        args.lines,
+        args.cookies,
+        args.days,
+        args.start,
+        args.seed,
+        args.exponent,
+        args.mixed_offsets,
+    )
     with open(args.output, "w", encoding="utf-8", newline="\n") as handle:
         handle.write("\n".join(rows) + "\n")
     print(f"Wrote {len(rows) - 1} rows to {args.output}")

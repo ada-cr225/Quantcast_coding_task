@@ -9,6 +9,7 @@ from pathlib import Path
 from most_active_cookie.cookie import most_active_cookies
 from most_active_cookie.parser import LogFormatError, read_log
 
+
 # address errors in date input:
 def parse_date(value: str) -> date:
     try:
@@ -17,6 +18,7 @@ def parse_date(value: str) -> date:
         raise argparse.ArgumentTypeError(
             f"invalid date {value!r}, expected YYYY-MM-DD"
         ) from None
+
 
 # sets up the command line interface parser
 def build_parser() -> argparse.ArgumentParser:
@@ -31,6 +33,7 @@ def build_parser() -> argparse.ArgumentParser:
         "-d", "--date", type=parse_date, required=True, help="UTC day as YYYY-MM-DD"
     )
     return parser
+
 
 def main(argv: Sequence[str] | None = None) -> int:
     args = build_parser().parse_args(argv)
