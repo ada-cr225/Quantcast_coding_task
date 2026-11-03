@@ -15,6 +15,7 @@ def parse_date(value: str) -> date:
             f"invalid date {value!r}, expected YYYY-MM-DD"
         ) from None
 
+# sets up the command line interface parser
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         prog="most_active_cookie",
