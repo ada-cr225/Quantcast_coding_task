@@ -33,6 +33,14 @@ def test_header_only_log_has_no_records(tmp_path: Path) -> None:
     assert read_log(path) == []
 
 
+def test_rejects_line_with_wrong_number_of_columns(tmp_path: Path) -> None:
+    path = tmp_path / "log.csv"
+    path.write_text("cookie,timestamp\nabc\n", encoding="utf-8")
+
+    with pytest.raises(LogFormatError, match="expected 'cookie,timestamp'"):
+        read_log(path)
+
+
 def test_rejects_invalid_timestamp(tmp_path: Path) -> None:
     path = tmp_path / "log.csv"
     path.write_text("cookie,timestamp\nabc,not-a-timestamp\n", encoding="utf-8")

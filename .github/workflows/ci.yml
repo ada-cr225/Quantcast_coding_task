@@ -35,4 +35,4 @@ jobs:
         run: mypy src
 
       - name: Run tests
-        run: pytest -v
+        run: pytest -v --cov=most_active_cookie --cov-report=term-missing --cov-fail-under=100
