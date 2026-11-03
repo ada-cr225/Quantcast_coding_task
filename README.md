@@ -73,6 +73,20 @@ SAZuXPGUrfbcn5UA,2018-12-09T10:13:00+00:00
 
 Timestamps are ISO 8601 and must include a UTC offset. Entries must be sorted newest first.
 
+## Development
+
+Install the project with its development tools (see Installation), then run the same checks CI runs on every push to `main`:
+
+```
+pytest -v
+pytest --cov=most_active_cookie --cov-report=term-missing
+ruff check .
+ruff format --check .
+mypy src
+```
+
+Tests live in `tests/`, one file per module: `test_cookie.py` (core logic), `test_parser.py` (reading the log) and `test_cli.py` (end-to-end runs through `main`).
+
 ## Design
 
 The code is split into three modules under `src/most_active_cookie/`, each with a single job:

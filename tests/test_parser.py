@@ -57,6 +57,14 @@ def test_rejects_timestamp_without_offset(tmp_path: Path) -> None:
         read_log(path)
 
 
+def test_rejects_non_utf8_file(tmp_path: Path) -> None:
+    path = tmp_path / "log.csv"
+    path.write_bytes(b"cookie,timestamp\n\xff\xfe,2018-12-09T14:19:00+00:00\n")
+
+    with pytest.raises(LogFormatError, match="UTF-8"):
+        read_log(path)
+
+
 def test_missing_file_raises(tmp_path: Path) -> None:
     with pytest.raises(FileNotFoundError):
         read_log(tmp_path / "missing.csv")
