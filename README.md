@@ -10,24 +10,24 @@ A command-line tool that finds the most active cookies on a given day in a cooki
 
 Install directly from GitHub:
 
-```
-pip install git+https://github.com/ada-cr225/Quantcast_coding_task.git
+```console
+$ pip install git+https://github.com/ada-cr225/Quantcast_coding_task.git
 ```
 
 Or clone the repository and install it in a virtual environment:
 
-```
-git clone https://github.com/ada-cr225/Quantcast_coding_task.git
-cd Quantcast_coding_task
-python -m venv .venv
-source .venv/bin/activate        # Windows: .venv\Scripts\activate
-pip install -e ".[dev]"
+```console
+$ git clone https://github.com/ada-cr225/Quantcast_coding_task.git
+$ cd Quantcast_coding_task
+$ python -m venv .venv
+$ source .venv/bin/activate        # Windows: .venv\Scripts\activate
+$ pip install -e ".[dev]"
 ```
 
 ## Usage
 
-```
-most_active_cookie -f <log file> -d <YYYY-MM-DD>
+```console
+$ most_active_cookie -f <log file> -d <YYYY-MM-DD>
 ```
 
 | Option | Description |
@@ -37,14 +37,14 @@ most_active_cookie -f <log file> -d <YYYY-MM-DD>
 
 Example, using the sample log in `data/`:
 
-```
+```console
 $ most_active_cookie -f data/cookie_log.csv -d 2018-12-09
 AtY0laUfhglK3lC7
 ```
 
 If several cookies tie for most active, each one is printed on its own line:
 
-```
+```console
 $ most_active_cookie -f data/cookie_log.csv -d 2018-12-08
 SAZuXPGUrfbcn5UA
 4sMM2LxV07bPJzwf
@@ -87,9 +87,9 @@ The core logic never touches files or the terminal, so it can be tested and reus
 
 `generate_cookie_log.py` creates a large synthetic log in the same format, for manual testing. It was written with help from Claude. The generated files are not committed.
 
-```
-python generate_cookie_log.py -o data/cookie_log_large.csv
-python generate_cookie_log.py -o data/cookie_log_mixed_offsets.csv --mixed-offsets
+```console
+$ python generate_cookie_log.py -o data/cookie_log_large.csv
+$ python generate_cookie_log.py -o data/cookie_log_mixed_offsets.csv --mixed-offsets
 ```
 
 Run `python generate_cookie_log.py --help` for options. With the default seed, both files have `3CfT45Vmut9ERDrc` as the most active cookie on `2018-12-09`.
