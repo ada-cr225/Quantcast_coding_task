@@ -85,6 +85,14 @@ def test_malformed_log_is_an_error(
     assert output.out == ""
     assert "line 2" in output.err
 
+def test_unreadable_path_is_an_error(tmp_path: Path, capsys: pytest.CaptureFixture[str]) -> None:
+    exit_code = main(["-f", str(tmp_path), "-d", "2018-12-09"])
+
+    output = capsys.readouterr()
+    assert exit_code == 1
+    assert output.out == ""
+    assert "cannot read" in output.err
+
 
 def test_invalid_date_is_a_usage_error(sample_log: Path) -> None:
     with pytest.raises(SystemExit) as exc_info:
