@@ -2,7 +2,6 @@ from collections.abc import Iterable
 from dataclasses import dataclass
 from datetime import date, datetime, timezone
 
-# simple data structure to hold cookie records
 @dataclass(frozen=True)
 class CookieRecord:
     cookie: str
