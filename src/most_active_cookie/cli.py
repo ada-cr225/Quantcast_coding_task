@@ -1,5 +1,3 @@
-# CLI for finding the most active cookie
-
 import argparse
 import sys
 from collections.abc import Sequence
@@ -12,6 +10,10 @@ from most_active_cookie.parser import LogFormatError, read_log
 
 # address errors in date input:
 def parse_date(value: str) -> date:
+    """
+    Used as an argparse ``type``: raising ArgumentTypeError makes argparse
+    print a clean usage error instead of a traceback
+    """
     try:
         return date.fromisoformat(value)
     except ValueError:
@@ -22,6 +24,7 @@ def parse_date(value: str) -> date:
 
 # sets up the command line interface parser
 def build_parser() -> argparse.ArgumentParser:
+    '''Build the argument parser for the -f/--file and -d/--date options'''
     parser = argparse.ArgumentParser(
         prog="most_active_cookie",
         description="Print the most active cookie(s) for a given UTC day.",
@@ -36,11 +39,21 @@ def build_parser() -> argparse.ArgumentParser:
 
 
 def main(argv: Sequence[str] | None = None) -> int:
+    """
+    Run the command-line tool and return its exit code.
+
+    Prints the most active cookie(s) for the requested day to stdout, one per line.
+    Returns 0 on success, or 1 if the log file is missing or malformed.
+    Invalid arguments make argparse exit with code 2.
+    """
     args = build_parser().parse_args(argv)
     try:
         records = read_log(args.file)
     except FileNotFoundError:
         print(f"error: file not found: {args.file}", file=sys.stderr)
+        return 1
+    except OSError as error:
+        print(f"error: cannot read {args.file}: {error.strerror}", file=sys.stderr)
         return 1
     except LogFormatError as error:
         print(f"error: {args.file}: {error}", file=sys.stderr)
