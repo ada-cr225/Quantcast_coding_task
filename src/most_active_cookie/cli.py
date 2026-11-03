@@ -24,7 +24,7 @@ def parse_date(value: str) -> date:
 
 # sets up the command line interface parser
 def build_parser() -> argparse.ArgumentParser:
-    '''Build the argument parser for the -f/--file and -d/--date options'''
+    """Build the argument parser for the -f/--file and -d/--date options"""
     parser = argparse.ArgumentParser(
         prog="most_active_cookie",
         description="Print the most active cookie(s) for a given UTC day.",
