@@ -6,6 +6,9 @@ from collections.abc import Sequence
 from datetime import date
 from pathlib import Path
 
+from most_active_cookie.cookie import most_active_cookies
+from most_active_cookie.parser import LogFormatError, read_log
+
 # address errors in date input:
 def parse_date(value: str) -> date:
     try:
@@ -31,7 +34,17 @@ def build_parser() -> argparse.ArgumentParser:
 
 def main(argv: Sequence[str] | None = None) -> int:
     args = build_parser().parse_args(argv)
-    print(f"file={args.file} date={args.date}")
+    try:
+        records = read_log(args.file)
+    except FileNotFoundError:
+        print(f"error: file not found: {args.file}", file=sys.stderr)
+        return 1
+    except LogFormatError as error:
+        print(f"error: {args.file}: {error}", file=sys.stderr)
+        return 1
+
+    for cookie in most_active_cookies(records, args.date):
+        print(cookie)
     return 0
 
 
