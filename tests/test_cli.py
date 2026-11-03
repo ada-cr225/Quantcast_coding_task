@@ -1,5 +1,7 @@
 from pathlib import Path
+
 import pytest
+
 from most_active_cookie.cli import main
 
 SAMPLE_LOG = """\
@@ -26,18 +28,25 @@ def sample_log(tmp_path: Path) -> Path:
 # ###################################### sucess runs #################################################
 
 
-def test_prints_most_active_cookie(sample_log: Path, capsys: pytest.CaptureFixture[str]) -> None:
+def test_prints_most_active_cookie(
+    sample_log: Path, capsys: pytest.CaptureFixture[str]
+) -> None:
     exit_code = main(["-f", str(sample_log), "-d", "2018-12-09"])
 
     assert exit_code == 0
     assert capsys.readouterr().out == "AtY0laUfhglK3lC7\n"
 
 
-def test_prints_every_tied_cookie(sample_log: Path, capsys: pytest.CaptureFixture[str]) -> None:
+def test_prints_every_tied_cookie(
+    sample_log: Path, capsys: pytest.CaptureFixture[str]
+) -> None:
     exit_code = main(["-f", str(sample_log), "-d", "2018-12-08"])
 
     assert exit_code == 0
-    assert capsys.readouterr().out == "SAZuXPGUrfbcn5UA\n4sMM2LxV07bPJzwf\nfbcn5UAVanZf6UtG\n"
+    assert (
+        capsys.readouterr().out
+        == "SAZuXPGUrfbcn5UA\n4sMM2LxV07bPJzwf\nfbcn5UAVanZf6UtG\n"
+    )
 
 
 def test_prints_nothing_for_day_with_no_entries(
@@ -52,7 +61,9 @@ def test_prints_nothing_for_day_with_no_entries(
 ####################################### error runs #################################################
 
 
-def test_missing_file_is_an_error(tmp_path: Path, capsys: pytest.CaptureFixture[str]) -> None:
+def test_missing_file_is_an_error(
+    tmp_path: Path, capsys: pytest.CaptureFixture[str]
+) -> None:
     exit_code = main(["-f", str(tmp_path / "missing.csv"), "-d", "2018-12-09"])
 
     output = capsys.readouterr()
@@ -61,7 +72,9 @@ def test_missing_file_is_an_error(tmp_path: Path, capsys: pytest.CaptureFixture[
     assert "file not found" in output.err
 
 
-def test_malformed_log_is_an_error(tmp_path: Path, capsys: pytest.CaptureFixture[str]) -> None:
+def test_malformed_log_is_an_error(
+    tmp_path: Path, capsys: pytest.CaptureFixture[str]
+) -> None:
     path = tmp_path / "log.csv"
     path.write_text("cookie,timestamp\nabc,not-a-timestamp\n", encoding="utf-8")
 

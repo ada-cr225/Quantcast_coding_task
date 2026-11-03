@@ -1,8 +1,11 @@
 from datetime import datetime, timezone
 from pathlib import Path
+
 import pytest
+
 from most_active_cookie.cookie import CookieRecord
 from most_active_cookie.parser import LogFormatError, read_log
+
 
 def test_reads_valid_log(tmp_path: Path) -> None:
     path = tmp_path / "log.csv"
@@ -14,8 +17,12 @@ def test_reads_valid_log(tmp_path: Path) -> None:
     )
 
     assert read_log(path) == [
-        CookieRecord("AtY0laUfhglK3lC7", datetime(2018, 12, 9, 14, 19, tzinfo=timezone.utc)),
-        CookieRecord("SAZuXPGUrfbcn5UA", datetime(2018, 12, 9, 10, 13, tzinfo=timezone.utc)),
+        CookieRecord(
+            "AtY0laUfhglK3lC7", datetime(2018, 12, 9, 14, 19, tzinfo=timezone.utc)
+        ),
+        CookieRecord(
+            "SAZuXPGUrfbcn5UA", datetime(2018, 12, 9, 10, 13, tzinfo=timezone.utc)
+        ),
     ]
 
 

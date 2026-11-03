@@ -1,13 +1,15 @@
 from datetime import date, datetime
-import pytest
-from most_active_cookie.cookie import CookieRecord
-from most_active_cookie.cookie import count_cookies_on_day
-from most_active_cookie.cookie import most_active_cookies
-from most_active_cookie.cookie import most_frequent
+
+from most_active_cookie.cookie import (
+    CookieRecord,
+    count_cookies_on_day,
+    most_active_cookies,
+    most_frequent,
+)
+
 
 def record(cookie: str, timestamp: str) -> CookieRecord:
     return CookieRecord(cookie, datetime.fromisoformat(timestamp))
-
 
 
 ##################### most_frequent #######################################
